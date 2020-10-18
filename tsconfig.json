@@ -35,6 +35,21 @@
       ],
       "@icons": [
         "src/components/icons"
+      ],
+      "@containers": [
+        "src/containers"
+      ],
+      "@views": [
+        "src/views"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@axios": [
+        "src/axios"
       ]
     },
     "typeRoots": [

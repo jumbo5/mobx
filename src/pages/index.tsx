@@ -1,3 +1,5 @@
-const IndexPage = () => <p>Hello, I'm the index page</p>
+import { IndexPage } from '@views'
 
-export default IndexPage
+const Index = () => <IndexPage />
+
+export default Index
