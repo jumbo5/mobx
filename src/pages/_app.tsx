@@ -5,8 +5,6 @@ import { observer } from 'mobx-react-lite'
 import { useCreateStore, useProvider } from 'mobx-store-provider'
 import { AppInitialProps, AppProps } from 'next/app'
 
-import 'antd/dist/antd.css'
-
 const Application = observer(
   ({ Component, router, pageProps = {} }: AppProps & AppInitialProps) => {
     const store = useCreateStore(() =>

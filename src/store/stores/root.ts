@@ -1,11 +1,9 @@
-import { _async, _await, Model, model, modelFlow, prop } from 'mobx-keystone'
-
-import { Favorites, Todos } from './'
+import { _async, _await, Model, model } from 'mobx-keystone'
 
 @model('app')
 export class RootStore extends Model({
-  todos: prop(() => new Todos({ list: [] })),
-  favorites: prop(() => new Favorites({ list: [] })),
+  // todos: prop(() => new Todos({ list: [] })),
+  // favorites: prop(() => new Favorites({ list: [] })),
 }) {
   // @modelFlow
   // public loadInitialData = _async(function* (this: RootStore) {

@@ -42,6 +42,7 @@
       "@views": [
         "src/views"
       ],
+      "@views/": ["src/views/*"],
       "@store/*": [
         "src/store/*"
       ],
