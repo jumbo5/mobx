@@ -1,7 +1,8 @@
 import { IndexPage, IndexPageProps } from '@views'
 import axios from 'axios'
 import { NextPage } from 'next'
-import { GenerateBoardResponse } from 'src/views/IndexPage/model'
+
+import { GenerateBoardResponse } from '@app/views/IndexPage/control'
 
 const Index: NextPage<IndexPageProps> = (props) => <IndexPage {...props} />
 
@@ -13,7 +14,7 @@ Index.getInitialProps = async () => {
   return {
     initialBoard: initialBoard.data.board,
     // initialBoard: [
-    //   [3, 1, 6, 5, 7, 8, 4, 9, 2],
+    //   [3, 0, 6, 5, 7, 8, 4, 9, 2],
     //   [5, 2, 9, 1, 3, 4, 7, 6, 8],
     //   [4, 8, 7, 6, 2, 9, 5, 3, 1],
     //   [2, 6, 3, 4, 1, 5, 9, 8, 7],

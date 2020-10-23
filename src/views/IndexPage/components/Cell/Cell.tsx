@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { ICell, sudokuState } from '../../model'
+import { ICell, sudokuState } from '../../control'
 
 export interface CellProps {
   cell: ICell

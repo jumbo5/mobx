@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { sudokuState } from '../../model'
+import { sudokuState } from '../../control'
 import { Cell } from '../'
 
 export const Board = observer(() => {

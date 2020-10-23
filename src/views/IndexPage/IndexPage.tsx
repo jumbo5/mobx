@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Slider } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import { Board } from './components'
-import { sudokuState } from './model'
+import { sudokuState } from './control'
 
 export interface IndexPageProps {
   initialBoard: number[][]
@@ -12,22 +12,25 @@ export interface IndexPageProps {
 
 export const IndexPage: React.FC<IndexPageProps> = observer(
   ({ initialBoard }) => {
-    const { validation, cellSide } = sudokuState
+    const [isInvalidated, setIsInvalidated] = useState(false)
+    const { cellSide, isSolved } = sudokuState
 
     useEffect(() => {
-      sudokuState.updateBoard(initialBoard)
-    }, [initialBoard])
+      sudokuState.initializeBoard(initialBoard)
+    }, [JSON.stringify(initialBoard)])
+
+    const onCheckClick = () => {
+      console.log(sudokuState.validateBoard())
+      setIsInvalidated(!sudokuState.validateBoard())
+
+      setTimeout(() => setIsInvalidated(false), 700)
+    }
 
     return (
       <Container>
         <Menu>
-          <Button
-            onClick={() => sudokuState.validateBoard()}
-            type="primary"
-            loading={validation.pending}
-            danger={validation.solved === false}
-          >
-            {validation.solved === false ? 'Неверно' : 'Проверить'}
+          <Button onClick={onCheckClick} type="primary" danger={isInvalidated}>
+            {isSolved ? 'Верно' : isInvalidated ? 'Неверно' : 'Проверить'}
           </Button>
 
           <SliderWrapper>

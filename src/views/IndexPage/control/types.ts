@@ -1,4 +1,5 @@
-import { Cell, SudokuState } from './sudokuModel'
+import { Cell } from './models/cellModel'
+import { SudokuState } from './models/sudokuModel'
 
 export interface GenerateBoardResponse {
   board: number[][]
