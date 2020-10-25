@@ -11,21 +11,33 @@ import {
 } from 'mobx-keystone'
 
 import { Cell } from './cellModel'
-import { GenerateBoardResponse } from '../types'
-import {
-  convertBoardToNumberArray,
-  convertNumberArrayToBoard,
-  isBoardValid,
-} from '../utils'
+import { difficultiesType, GenerateBoardResponse } from '../types'
+import { isBoardValid } from '../utils'
 
 @model('sudoku')
 export class SudokuState extends Model({
   board: prop<Cell[][]>(),
 }) {
-  @observable isSolved: boolean = false
-  @observable selectedNumber: number = 0
-
+  @observable isSolved = false
+  @observable selectedNumber = 0
   @observable generatingBoard = false
+  @observable timer = 0
+
+  convertBoardToNumberArray(board: Cell[][]) {
+    return board.map((row) => row.map((cell) => cell.number))
+  }
+
+  convertNumberArrayToBoard(array: number[][]) {
+    return array.map((row) =>
+      row.map(
+        (cell) =>
+          new Cell({
+            number: cell,
+            disabled: cell !== 0,
+          }),
+      ),
+    )
+  }
 
   @modelAction
   selectNumber(number: number) {
@@ -56,12 +68,12 @@ export class SudokuState extends Model({
 
   @modelAction
   initializeBoard(board: number[][]) {
-    this.board = convertNumberArrayToBoard(board)
+    this.board = this.convertNumberArrayToBoard(board)
   }
 
   @modelAction
   validateBoard() {
-    const isSolved = isBoardValid(convertBoardToNumberArray(this.board))
+    const isSolved = isBoardValid(this.convertBoardToNumberArray(this.board))
     this.isSolved = isSolved
 
     return isSolved
@@ -79,18 +91,23 @@ export class SudokuState extends Model({
   }
 
   @modelFlow
-  public generateBoard = _async(function* (this: SudokuState) {
+  public generateBoard = _async(function* (
+    this: SudokuState,
+    difficulty: difficultiesType,
+  ) {
     this.generatingBoard = true
 
     const board = yield* _await(
       axios.get<GenerateBoardResponse>(
-        `${process.env.NEXT_PUBLIC_SUDOKU_API}/board?difficulty=easy`,
+        `${process.env.NEXT_PUBLIC_SUDOKU_API}/board?difficulty=${difficulty}`,
       ),
     )
 
-    this.board = convertNumberArrayToBoard(board.data.board)
+    this.board = this.convertNumberArrayToBoard(board.data.board)
     this.generatingBoard = false
   })
 }
 
-export const sudokuState = new SudokuState({ board: [] })
+export const sudokuState = new SudokuState({
+  board: new Array(9).fill(new Array(9).fill(0)),
+})

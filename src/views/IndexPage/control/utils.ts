@@ -50,11 +50,3 @@ export const isBoardValid = (board: number[][]) => {
 
   return validateBoard(rows) && validateBoard(cols) && validateBoard(grid)
 }
-
-export const convertBoardToNumberArray = (board: Cell[][]) =>
-  board.map((row) => row.map((cell) => cell.number))
-
-export const convertNumberArrayToBoard = (array: number[][]) =>
-  array.map((row) =>
-    row.map((cell) => new Cell({ number: cell, disabled: cell !== 0 })),
-  )

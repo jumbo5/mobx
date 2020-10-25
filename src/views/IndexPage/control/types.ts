@@ -17,14 +17,19 @@ export const colorKeys = literalArray([
   'highlighted',
 ])
 export const colorFields = literalArray(['text', 'background'])
+export const difficulties = literalArray(['easy', 'medium', 'hard', 'random'])
+
 export type colorKeysType = ValuesOf<typeof colorKeys>
 export type colorFieldsType = ValuesOf<typeof colorFields>
+export type difficultiesType = ValuesOf<typeof difficulties>
 
 export type singleColor = { [key in colorFieldsType]: string }
 export type colorsType = { [key in colorKeysType]: singleColor }
+
 export interface ISettings {
   cellSide: number
   colors: colorsType
   showTimer: boolean
   showLeftNumber: boolean
+  difficulty: difficultiesType
 }

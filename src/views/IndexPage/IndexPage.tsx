@@ -6,55 +6,56 @@ import styled from 'styled-components'
 import { Board, Numbers, Settings, Timer } from './components'
 import { settingsState, sudokuState } from './control'
 
-export interface IndexPageProps {
-  initialBoard: number[][]
-}
+export const IndexPage: React.FC = observer(() => {
+  const [isInvalidated, setIsInvalidated] = useState(false)
+  const { isSolved, generatingBoard } = sudokuState
 
-export const IndexPage: React.FC<IndexPageProps> = observer(
-  ({ initialBoard }) => {
-    const [isInvalidated, setIsInvalidated] = useState(false)
-    const { isSolved, generatingBoard } = sudokuState
+  const onCheckClick = () => {
+    setIsInvalidated(!sudokuState.validateBoard())
 
-    useEffect(() => {
-      sudokuState.initializeBoard(initialBoard)
-    }, [JSON.stringify(initialBoard)])
+    setTimeout(() => setIsInvalidated(false), 1200)
+  }
 
-    const onCheckClick = () => {
-      setIsInvalidated(!sudokuState.validateBoard())
+  return (
+    <Container>
+      <SettingsWrapper>
+        <Settings />
+      </SettingsWrapper>
 
-      setTimeout(() => setIsInvalidated(false), 1200)
-    }
+      <Menu>
+        <Button onClick={onCheckClick} type="primary" danger={isInvalidated}>
+          {isSolved ? 'Верно' : isInvalidated ? 'Неверно' : 'Проверить'}
+        </Button>
 
-    return (
-      <Container>
-        <SettingsWrapper>
-          <Settings />
-        </SettingsWrapper>
+        <Button
+          onClick={() => {
+            sudokuState.clearBoard()
+            sudokuState.selectNumber(0)
+          }}
+        >
+          Очистить
+        </Button>
 
-        <Menu>
-          <Button onClick={onCheckClick} type="primary" danger={isInvalidated}>
-            {isSolved ? 'Верно' : isInvalidated ? 'Неверно' : 'Проверить'}
-          </Button>
+        <Button
+          onClick={() => {
+            sudokuState.timer = 0
+            sudokuState.generateBoard(settingsState.difficulty)
+            sudokuState.selectNumber(0)
+          }}
+          loading={generatingBoard}
+        >
+          Новая игра
+        </Button>
 
-          <Button onClick={() => sudokuState.clearBoard()}>Очистить</Button>
+        <Timer />
+      </Menu>
 
-          <Button
-            onClick={() => sudokuState.generateBoard()}
-            loading={generatingBoard}
-          >
-            Новая игра
-          </Button>
+      <Board />
 
-          <Timer />
-        </Menu>
-
-        <Board />
-
-        {settingsState.showLeftNumber && <Numbers />}
-      </Container>
-    )
-  },
-)
+      {settingsState.showLeftNumber && <Numbers />}
+    </Container>
+  )
+})
 
 const Container = styled.div`
   position: relative;

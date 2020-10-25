@@ -2,8 +2,13 @@ import { computed } from 'mobx'
 import { _async, _await, Model, model, modelAction, prop } from 'mobx-keystone'
 
 import { DefaultSettings, SETTINGS_LS_KEY } from '../constants'
-import { colorFieldsType, colorKeysType, colorsType, ISettings } from '../types'
-import { sudokuState } from '../'
+import {
+  colorFieldsType,
+  colorKeysType,
+  colorsType,
+  difficultiesType,
+  ISettings,
+} from '../types'
 
 export const getInitialSettings = () => {
   const stringifiedSettings =
@@ -20,6 +25,7 @@ export class SettingsState extends Model({
   colors: prop<colorsType>(),
   showTimer: prop<boolean>(),
   showLeftNumber: prop<boolean>(),
+  difficulty: prop<difficultiesType>(),
 }) {
   @computed
   get settings() {
@@ -28,6 +34,7 @@ export class SettingsState extends Model({
       colors: this.colors,
       showTimer: this.showTimer,
       showLeftNumber: this.showLeftNumber,
+      difficulty: this.difficulty,
     })
   }
 
@@ -69,8 +76,13 @@ export class SettingsState extends Model({
     this.actionWrapper(() => {
       this.showLeftNumber = !this.showLeftNumber
     })
+  }
 
-    sudokuState.selectNumber(0)
+  @modelAction
+  changeDifficulty(difficulty: difficultiesType) {
+    this.actionWrapper(() => {
+      this.difficulty = difficulty
+    })
   }
 }
 

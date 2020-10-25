@@ -23,4 +23,5 @@ export const DefaultSettings: ISettings = {
   },
   showTimer: true,
   showLeftNumber: true,
+  difficulty: 'easy',
 }

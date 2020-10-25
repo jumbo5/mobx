@@ -2,7 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled, { css } from 'styled-components'
 
-import { colorsType, ICell, settingsState } from '../../control'
+import { colorsType, ICell, settingsState, sudokuState } from '../../control'
 
 export interface CellProps {
   cell: ICell
@@ -21,7 +21,7 @@ export const Cell: React.FC<CellProps> = observer(({ cell }) => {
       disabled={cell.disabled}
       onClick={() => cell.onSelect()}
       onFocus={() => cell.onSelect()}
-      onKeyDown={(e) => cell.onUpdateNumber(e.key)}
+      onKeyDown={(e) => cell.onUpdateNumber(e.key, sudokuState.selectedNumber)}
       highlighted={cell.highlighted}
       cellSide={settingsState.cellSide}
       colors={settingsState.colors}

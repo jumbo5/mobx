@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Drawer, Popover, Slider, Switch } from 'antd'
+import { Button, Drawer, Popover, Select, Slider, Switch } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { colorKeys, settingsState } from '../../control'
+import {
+  colorKeys,
+  difficulties,
+  difficultiesType,
+  settingsState,
+  sudokuState,
+} from '../../control'
 
 export interface SettingsProps {}
 
@@ -86,7 +92,28 @@ export const Settings: React.FC<SettingsProps> = observer(() => {
           <p>Показывать оставшиеся числа</p>
           <Switch
             checked={settingsState.showLeftNumber}
-            onChange={() => settingsState.toggleShowLeftNumber()}
+            onChange={() => {
+              settingsState.toggleShowLeftNumber()
+              sudokuState.selectNumber(0)
+            }}
+          />
+        </Setting>
+
+        <Setting>
+          <p>Сложность</p>
+          <StyledSelect
+            value={settingsState.difficulty}
+            options={difficulties.map((difficulty) => ({
+              value: difficulty,
+              label: difficulty,
+            }))}
+            loading={sudokuState.generatingBoard}
+            onSelect={(value) => {
+              sudokuState.generateBoard(value as difficultiesType)
+              settingsState.changeDifficulty(value as difficultiesType)
+
+              return value
+            }}
           />
         </Setting>
       </Drawer>
@@ -108,4 +135,8 @@ const Setting = styled.div`
 const ColorsWrapper = styled.div`
   display: grid;
   gap: 0 4px;
+`
+
+const StyledSelect = styled(Select)`
+  width: 100%;
 `

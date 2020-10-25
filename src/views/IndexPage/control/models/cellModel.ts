@@ -1,8 +1,6 @@
 import { observable } from 'mobx'
 import { _async, _await, Model, model, modelAction, prop } from 'mobx-keystone'
 
-import { sudokuState } from './sudokuModel'
-
 @model('cell')
 export class Cell extends Model({
   number: prop<number>(),
@@ -22,12 +20,12 @@ export class Cell extends Model({
   }
 
   @modelAction
-  onUpdateNumber(key: string) {
+  onUpdateNumber(key: string, selectedNumber: number) {
     if (['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) {
       this.number = parseInt(key as string, 10)
     }
 
-    if (this.number === sudokuState.selectedNumber && key !== 'Backspace') {
+    if (this.number === selectedNumber && key !== 'Backspace') {
       this.highlighted = true
     }
 
@@ -36,7 +34,7 @@ export class Cell extends Model({
       this.highlighted = false
     }
 
-    if (this.highlighted && this.number !== sudokuState.selectedNumber) {
+    if (this.highlighted && this.number !== selectedNumber) {
       this.highlighted = false
     }
 

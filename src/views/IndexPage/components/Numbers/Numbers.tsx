@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import { sudokuState } from '../../control'
-import { convertBoardToNumberArray } from '../../control/utils'
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -16,7 +15,7 @@ export const Numbers = observer(() => {
   }
 
   const numbersLeft = useMemo(() => {
-    const convertedBoard = convertBoardToNumberArray(board)
+    const convertedBoard = sudokuState.convertBoardToNumberArray(board)
 
     const leftArray = [9, 9, 9, 9, 9, 9, 9, 9, 9]
 
