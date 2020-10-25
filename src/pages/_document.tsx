@@ -45,6 +45,7 @@ class AppDocument extends Document<Props> {
         <Head>
           {this.props.styles}
           <link href="/styles/antd.min.css" rel="stylesheet" />
+          <link href="/styles/colorful.css" rel="stylesheet" />
         </Head>
         <body>
           <Main />

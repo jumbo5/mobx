@@ -28,6 +28,7 @@
     "next-seo": "^4.5.0",
     "next-transpile-modules": "^3.3.0",
     "react": "^16.7.0",
+    "react-colorful": "^4.4.1",
     "react-dom": "^16.7.0",
     "styled-components": "^5.1.0",
     "styled-reset": "^4.1.5"
