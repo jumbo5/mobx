@@ -1,10 +1,13 @@
 import { observable } from 'mobx'
 import { _async, _await, Model, model, modelAction, prop } from 'mobx-keystone'
 
+import { sudokuState } from './sudokuModel'
+
 @model('cell')
 export class Cell extends Model({
   number: prop<number>(),
   disabled: prop<boolean>(),
+  highlighted: prop<boolean>(false),
 }) {
   @observable isSelected = false
 
@@ -24,8 +27,13 @@ export class Cell extends Model({
       this.number = parseInt(key as string, 10)
     }
 
+    if (this.number === sudokuState.selectedNumber && key !== 'Backspace') {
+      this.highlighted = true
+    }
+
     if (key === 'Backspace') {
       this.number = 0
+      this.highlighted = false
     }
 
     this.onBlur()

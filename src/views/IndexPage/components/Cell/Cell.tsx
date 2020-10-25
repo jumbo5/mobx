@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { ICell, settingsState } from '../../control'
 
@@ -15,12 +15,13 @@ export const Cell: React.FC<CellProps> = observer(({ cell }) => (
     onFocus={() => cell.onSelect()}
     onKeyDown={(e) => cell.onUpdateNumber(e.key)}
     cellSide={settingsState.cellSide}
+    highlighted={cell.highlighted}
   >
     {cell.number === 0 ? ' ' : cell.number}
   </Container>
 ))
 
-const Container = styled.button<{ cellSide: number }>`
+const Container = styled.button<{ cellSide: number; highlighted: boolean }>`
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -30,17 +31,25 @@ const Container = styled.button<{ cellSide: number }>`
   box-shadow: inset 0px 0px 0px 0.1px rgba(0, 0, 0, 1);
   font-size: ${({ cellSide }) => `${cellSide / 2}px`};
 
-  &:disabled {
-    cursor: not-allowed;
-    background-color: #bdbdbd;
-    color: white;
-  }
+  ${({ highlighted }) =>
+    highlighted
+      ? css`
+          background-color: #808e95;
+          color: white;
+        `
+      : css`
+          &:disabled {
+            cursor: not-allowed;
+            background-color: #bdbdbd;
+            color: white;
+          }
 
-  &:hover:not([disabled]) {
-    background-color: #cfd8dc;
-  }
+          &:hover:not([disabled]) {
+            background-color: #cfd8dc;
+          }
 
-  &:focus:not([disabled]) {
-    background-color: #b0bec5;
-  }
+          &:focus:not([disabled]) {
+            background-color: #b0bec5;
+          }
+        `}
 `

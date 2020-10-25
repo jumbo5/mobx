@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { Board, Settings } from './components'
+import { Board, Numbers, Settings } from './components'
 import { sudokuState } from './control'
 
 export interface IndexPageProps {
@@ -13,7 +13,7 @@ export interface IndexPageProps {
 export const IndexPage: React.FC<IndexPageProps> = observer(
   ({ initialBoard }) => {
     const [isInvalidated, setIsInvalidated] = useState(false)
-    const { isSolved } = sudokuState
+    const { isSolved, generatingBoard } = sudokuState
 
     useEffect(() => {
       sudokuState.initializeBoard(initialBoard)
@@ -35,9 +35,20 @@ export const IndexPage: React.FC<IndexPageProps> = observer(
           <Button onClick={onCheckClick} type="primary" danger={isInvalidated}>
             {isSolved ? 'Верно' : isInvalidated ? 'Неверно' : 'Проверить'}
           </Button>
+
+          <Button onClick={() => sudokuState.clearBoard()}>Очистить</Button>
+
+          <Button
+            onClick={() => sudokuState.generateBoard()}
+            loading={generatingBoard}
+          >
+            Новая игра
+          </Button>
         </Menu>
 
         <Board />
+
+        <Numbers />
       </Container>
     )
   },
@@ -58,4 +69,8 @@ const SettingsWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const Menu = styled.div``
+const Menu = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  gap: 0 12px;
+`
