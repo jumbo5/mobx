@@ -15,21 +15,14 @@ import { GenerateBoardResponse } from '../types'
 import {
   convertBoardToNumberArray,
   convertNumberArrayToBoard,
-  getInitialCellSide,
   isBoardValid,
 } from '../utils'
 
 @model('sudoku')
 export class SudokuState extends Model({
   board: prop<Cell[][]>(),
-  cellSide: prop<number>(56),
 }) {
   @observable isSolved: boolean = false
-
-  @modelAction
-  updateCellSide(cellSide: number) {
-    this.cellSide = cellSide
-  }
 
   @modelAction
   initializeBoard(board: number[][]) {
@@ -56,7 +49,4 @@ export class SudokuState extends Model({
   })
 }
 
-export const sudokuState = new SudokuState({
-  board: [],
-  cellSide: getInitialCellSide(),
-})
+export const sudokuState = new SudokuState({ board: [] })

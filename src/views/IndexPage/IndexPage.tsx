@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Slider } from 'antd'
+import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { Board } from './components'
+import { Board, Settings } from './components'
 import { sudokuState } from './control'
 
 export interface IndexPageProps {
@@ -13,36 +13,28 @@ export interface IndexPageProps {
 export const IndexPage: React.FC<IndexPageProps> = observer(
   ({ initialBoard }) => {
     const [isInvalidated, setIsInvalidated] = useState(false)
-    const { cellSide, isSolved } = sudokuState
+    const { isSolved } = sudokuState
 
     useEffect(() => {
       sudokuState.initializeBoard(initialBoard)
     }, [JSON.stringify(initialBoard)])
 
     const onCheckClick = () => {
-      console.log(sudokuState.validateBoard())
       setIsInvalidated(!sudokuState.validateBoard())
 
-      setTimeout(() => setIsInvalidated(false), 700)
+      setTimeout(() => setIsInvalidated(false), 1200)
     }
 
     return (
       <Container>
+        <SettingsWrapper>
+          <Settings />
+        </SettingsWrapper>
+
         <Menu>
           <Button onClick={onCheckClick} type="primary" danger={isInvalidated}>
             {isSolved ? 'Верно' : isInvalidated ? 'Неверно' : 'Проверить'}
           </Button>
-
-          <SliderWrapper>
-            <p>Размер ячеек</p>
-            <Slider
-              min={48}
-              max={96}
-              defaultValue={cellSide}
-              step={2}
-              onChange={(num: number) => sudokuState.updateCellSide(num)}
-            />
-          </SliderWrapper>
         </Menu>
 
         <Board />
@@ -52,16 +44,18 @@ export const IndexPage: React.FC<IndexPageProps> = observer(
 )
 
 const Container = styled.div`
+  position: relative;
   height: 100%;
   display: grid;
-  justify-content: left;
-  gap: 96px;
+  gap: 32px;
 `
 
-const Menu = styled.div`
-  width: 400px;
+const SettingsWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 `
 
-const SliderWrapper = styled.div`
-  margin-top: 24px;
-`
+const Menu = styled.div``

@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react-lite'
+import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 
-import { sudokuState } from '../../control'
+import { settingsState, sudokuState } from '../../control'
 import { Cell } from '../'
 
+const OverlayGrid = dynamic(import('./OverlayGrid'), { ssr: false })
+
 export const Board = observer(() => {
-  const { board, cellSide } = sudokuState
+  const { board } = sudokuState
+  const { cellSide } = settingsState
 
   return (
     <BoardWrapper>
@@ -18,10 +22,7 @@ export const Board = observer(() => {
         )),
       )}
 
-      <OverlayGrid>
-        <OverlayLines position="horizontal" cellSide={cellSide} />
-        <OverlayLines position="vertical" cellSide={cellSide} />
-      </OverlayGrid>
+      <OverlayGrid />
     </BoardWrapper>
   )
 })
@@ -37,47 +38,4 @@ const BoardWrapper = styled.div`
 const CellWrapper = styled.div<{ cellSide: number }>`
   width: ${({ cellSide }) => `${cellSide}px`};
   height: ${({ cellSide }) => `${cellSide}px`};
-`
-
-const OverlayGrid = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid #757575;
-  pointer-events: none;
-`
-
-const OverlayLines = styled.div<{
-  position: 'horizontal' | 'vertical'
-  cellSide: number
-}>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  transform: ${({ position }) =>
-    position === 'horizontal' ? 'rotate(90deg)' : 'rotate(0deg)'};
-  pointer-events: none;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background-color: #757575;
-  }
-
-  &::before {
-    left: ${({ cellSide }) => `${cellSide * 3 - 3}px`};
-  }
-
-  &::after {
-    right: ${({ cellSide }) => `${cellSide * 3 - 3}px`};
-  }
 `

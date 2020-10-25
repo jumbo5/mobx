@@ -7,3 +7,7 @@ export interface GenerateBoardResponse {
 
 export interface ICell extends Cell {}
 export interface ISudokuState extends SudokuState {}
+
+export interface ISettings {
+  cellSide: number
+}
