@@ -21,4 +21,6 @@ export const DefaultSettings: ISettings = {
       background: '#808e95',
     },
   },
+  showTimer: true,
+  showLeftNumber: true,
 }

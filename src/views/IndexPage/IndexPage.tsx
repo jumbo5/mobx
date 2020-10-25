@@ -3,8 +3,8 @@ import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import { Board, Numbers, Settings } from './components'
-import { sudokuState } from './control'
+import { Board, Numbers, Settings, Timer } from './components'
+import { settingsState, sudokuState } from './control'
 
 export interface IndexPageProps {
   initialBoard: number[][]
@@ -44,11 +44,13 @@ export const IndexPage: React.FC<IndexPageProps> = observer(
           >
             Новая игра
           </Button>
+
+          <Timer />
         </Menu>
 
         <Board />
 
-        <Numbers />
+        {settingsState.showLeftNumber && <Numbers />}
       </Container>
     )
   },
@@ -71,6 +73,7 @@ const SettingsWrapper = styled.div`
 
 const Menu = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, min-content);
-  gap: 0 12px;
+  grid-template-columns: repeat(4, min-content);
+  align-items: center;
+  gap: 0 24px;
 `

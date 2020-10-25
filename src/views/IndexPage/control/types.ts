@@ -25,4 +25,6 @@ export type colorsType = { [key in colorKeysType]: singleColor }
 export interface ISettings {
   cellSide: number
   colors: colorsType
+  showTimer: boolean
+  showLeftNumber: boolean
 }

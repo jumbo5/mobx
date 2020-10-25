@@ -36,6 +36,10 @@ export class Cell extends Model({
       this.highlighted = false
     }
 
+    if (this.highlighted && this.number !== sudokuState.selectedNumber) {
+      this.highlighted = false
+    }
+
     this.onBlur()
   }
 }

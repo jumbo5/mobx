@@ -3,6 +3,7 @@ import { _async, _await, Model, model, modelAction, prop } from 'mobx-keystone'
 
 import { DefaultSettings, SETTINGS_LS_KEY } from '../constants'
 import { colorFieldsType, colorKeysType, colorsType, ISettings } from '../types'
+import { sudokuState } from '../'
 
 export const getInitialSettings = () => {
   const stringifiedSettings =
@@ -17,31 +18,59 @@ export const getInitialSettings = () => {
 export class SettingsState extends Model({
   cellSide: prop<number>(),
   colors: prop<colorsType>(),
+  showTimer: prop<boolean>(),
+  showLeftNumber: prop<boolean>(),
 }) {
   @computed
   get settings() {
-    return JSON.stringify({ cellSide: this.cellSide, colors: this.colors })
+    return JSON.stringify({
+      cellSide: this.cellSide,
+      colors: this.colors,
+      showTimer: this.showTimer,
+      showLeftNumber: this.showLeftNumber,
+    })
+  }
+
+  actionWrapper(action: () => void) {
+    action()
+    localStorage.setItem(SETTINGS_LS_KEY, this.settings)
   }
 
   @modelAction
   updateCellSide(cellSide: number) {
-    this.cellSide = cellSide
-
-    localStorage.setItem(SETTINGS_LS_KEY, this.settings)
+    this.actionWrapper(() => {
+      this.cellSide = cellSide
+    })
   }
 
   @modelAction
   updateColors(colors: colorsType) {
-    this.colors = colors
-
-    localStorage.setItem(SETTINGS_LS_KEY, this.settings)
+    this.actionWrapper(() => {
+      this.colors = colors
+    })
   }
 
   @modelAction
   updateColor(key: colorKeysType, field: colorFieldsType, color: string) {
-    this.colors[key][field] = color
+    this.actionWrapper(() => {
+      this.colors[key][field] = color
+    })
+  }
 
-    localStorage.setItem(SETTINGS_LS_KEY, this.settings)
+  @modelAction
+  toggleShowTimer() {
+    this.actionWrapper(() => {
+      this.showTimer = !this.showTimer
+    })
+  }
+
+  @modelAction
+  toggleShowLeftNumber() {
+    this.actionWrapper(() => {
+      this.showLeftNumber = !this.showLeftNumber
+    })
+
+    sudokuState.selectNumber(0)
   }
 }
 

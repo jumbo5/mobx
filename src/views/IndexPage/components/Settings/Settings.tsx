@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { HexColorPicker } from 'react-colorful'
 import { SettingOutlined } from '@ant-design/icons'
-import { Button, Drawer, Popover, Slider } from 'antd'
+import { Button, Drawer, Popover, Slider, Switch } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -10,8 +10,7 @@ import { colorKeys, settingsState } from '../../control'
 export interface SettingsProps {}
 
 export const Settings: React.FC<SettingsProps> = observer(() => {
-  const { cellSide } = settingsState
-  const [isDrawerVisible, setIsDrawerVisible] = useState(true)
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false)
 
   const onToggleDrawer = () => setIsDrawerVisible((isVisible) => !isVisible)
 
@@ -36,7 +35,7 @@ export const Settings: React.FC<SettingsProps> = observer(() => {
           <Slider
             min={48}
             max={96}
-            value={cellSide}
+            value={settingsState.cellSide}
             step={2}
             onChange={(num: number) => settingsState.updateCellSide(num)}
           />
@@ -74,6 +73,22 @@ export const Settings: React.FC<SettingsProps> = observer(() => {
             ))}
           </ColorsWrapper>
         </Setting>
+
+        <Setting>
+          <p>Показывать таймер</p>
+          <Switch
+            checked={settingsState.showTimer}
+            onChange={() => settingsState.toggleShowTimer()}
+          />
+        </Setting>
+
+        <Setting>
+          <p>Показывать оставшиеся числа</p>
+          <Switch
+            checked={settingsState.showLeftNumber}
+            onChange={() => settingsState.toggleShowLeftNumber()}
+          />
+        </Setting>
       </Drawer>
     </Container>
   )
@@ -82,6 +97,9 @@ export const Settings: React.FC<SettingsProps> = observer(() => {
 const Container = styled.div``
 
 const Setting = styled.div`
+  p {
+    margin-bottom: 4px;
+  }
   & + & {
     margin-top: 20px;
   }
