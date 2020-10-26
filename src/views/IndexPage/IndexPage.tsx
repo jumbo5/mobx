@@ -38,7 +38,6 @@ export const IndexPage: React.FC = observer(() => {
 
         <Button
           onClick={() => {
-            sudokuState.timer = 0
             sudokuState.generateBoard(settingsState.difficulty)
             sudokuState.selectNumber(0)
           }}

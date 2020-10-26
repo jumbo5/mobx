@@ -104,6 +104,7 @@ export class SudokuState extends Model({
     )
 
     this.board = this.convertNumberArrayToBoard(board.data.board)
+    this.timer = 0
     this.generatingBoard = false
   })
 }
