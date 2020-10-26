@@ -26,7 +26,15 @@ export const Cell: React.FC<CellProps> = observer(({ cell }) => {
       cellSide={settingsState.cellSide}
       colors={settingsState.colors}
     >
-      {cell.number === 0 ? ' ' : cell.number}
+      {/* {cell.number === 0 ? ' ' : cell.number} */}
+      <NotesWrapper
+        notesLength={cell.notes?.length || 0}
+        cellSide={settingsState.cellSide}
+      >
+        {cell.notes?.map((note, index) => (
+          <NotedNumber key={index}>{note === 0 ? ' ' : note}</NotedNumber>
+        ))}
+      </NotesWrapper>
     </Container>
   )
 })
@@ -67,6 +75,53 @@ const Container = styled.button<{
           &:focus:not([disabled]) {
             background-color: ${colors.focus.background};
             color: ${colors.focus.text};
+          }
+        `}
+`
+
+const NotedNumber = styled.div`
+  transition: transform 0.15s;
+`
+
+const NotesWrapper = styled.div<{ notesLength: number; cellSide: number }>`
+  display: grid;
+  grid-template-columns: min-content min-content;
+  justify-content: space-around;
+  transition: transform 0.15s;
+
+  ${({ notesLength, cellSide }) =>
+    notesLength == 1
+      ? css`
+          justify-content: center;
+        `
+      : notesLength == 2
+      ? css`
+          transform: rotate(45deg);
+
+          ${NotedNumber} {
+            transform: rotate(-45deg);
+            font-size: ${`${cellSide / 2.5}px`};
+          }
+        `
+      : notesLength === 3
+      ? css`
+          transform: rotate(0);
+
+          ${NotedNumber} {
+            transform: rotate(0);
+            font-size: ${`${cellSide / 3.4}px`};
+          }
+
+          ${NotedNumber}:nth-child(3) {
+            transform: translateX(100%);
+          }
+        `
+      : css`
+          transform: rotate(0);
+
+          ${NotedNumber} {
+            transform: rotate(0);
+            font-size: ${`${cellSide / 3.4}px`};
           }
         `}
 `

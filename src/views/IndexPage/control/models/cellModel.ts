@@ -8,6 +8,7 @@ export class Cell extends Model({
   highlighted: prop<boolean>(false),
 }) {
   @observable isSelected = false
+  @observable notes = this.number !== 0 ? [this.number] : []
 
   @modelAction
   onSelect() {
@@ -22,7 +23,12 @@ export class Cell extends Model({
   @modelAction
   onUpdateNumber(key: string, selectedNumber: number) {
     if (['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) {
-      this.number = parseInt(key as string, 10)
+      const parsedKey = parseInt(key as string, 10)
+
+      if (this.notes.length < 4) {
+        this.number = parsedKey
+        this.notes.push(parsedKey)
+      }
     }
 
     if (this.number === selectedNumber && key !== 'Backspace') {
@@ -31,6 +37,7 @@ export class Cell extends Model({
 
     if (key === 'Backspace') {
       this.number = 0
+      this.notes = []
       this.highlighted = false
     }
 

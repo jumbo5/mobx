@@ -1,5 +1,3 @@
-import { Cell } from './models/cellModel'
-
 const formatBoard = (board: number[][]) => {
   const rows: typeof board = board
   const cols: typeof board = []

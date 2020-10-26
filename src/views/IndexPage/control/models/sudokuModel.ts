@@ -24,7 +24,9 @@ export class SudokuState extends Model({
   @observable timer = 0
 
   convertBoardToNumberArray(board: Cell[][]) {
-    return board.map((row) => row.map((cell) => cell.number))
+    return board.map((row) =>
+      row.map((cell) => (cell.notes?.length < 2 ? cell.number : 0)),
+    )
   }
 
   convertNumberArrayToBoard(array: number[][]) {
@@ -44,7 +46,7 @@ export class SudokuState extends Model({
     if (number !== 0) {
       this.board.forEach((row) =>
         row.forEach((cell) => {
-          if (cell.number === number) {
+          if (cell.number === number && cell.notes.length < 2) {
             cell.highlighted = true
           }
 
