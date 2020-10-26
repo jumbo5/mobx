@@ -59,6 +59,7 @@ export class SettingsState extends Model({
 
   @modelAction
   updateColor(key: colorKeysType, field: colorFieldsType, color: string) {
+    console.log(key, field, color)
     this.actionWrapper(() => {
       this.colors[key][field] = color
     })
