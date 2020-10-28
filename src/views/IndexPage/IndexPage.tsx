@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'

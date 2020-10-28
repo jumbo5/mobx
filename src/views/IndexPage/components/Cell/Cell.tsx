@@ -16,8 +16,6 @@ export const Cell: React.FC<CellProps> = observer(({ cell }) => {
     hover: { text: hoverText, background: hoverBackground },
   } = settingsState.colors
 
-  console.log(highlightedText)
-
   return (
     <Container
       disabled={cell.disabled}

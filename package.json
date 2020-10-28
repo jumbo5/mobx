@@ -22,7 +22,7 @@
     "mobx-keystone": "^0.47.0",
     "mobx-react-lite": "^2.2.2",
     "mobx-store-provider": "^1.6.0",
-    "next": "latest",
+    "next": "^10.0.0",
     "next-compose-plugins": "^2.2.0",
     "next-fonts": "^1.1.0",
     "next-seo": "^4.5.0",
