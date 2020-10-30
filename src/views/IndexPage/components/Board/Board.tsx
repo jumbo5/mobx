@@ -19,8 +19,8 @@ export const Board = observer(() => {
   return (
     <BoardWrapper>
       {board.map((row) =>
-        row.map((cell) => (
-          <CellWrapper key={cell.$modelId} cellSide={cellSide}>
+        row.map((cell, index) => (
+          <CellWrapper key={index} cellSide={cellSide}>
             <Cell cell={cell} />
           </CellWrapper>
         )),
