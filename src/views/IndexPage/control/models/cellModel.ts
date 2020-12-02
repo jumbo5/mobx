@@ -1,6 +1,8 @@
 import { observable } from 'mobx'
 import { _async, _await, Model, model, modelAction, prop } from 'mobx-keystone'
 
+import { enabledKeys, numbersKeys } from '../constants'
+
 @model('cell')
 export class Cell extends Model({
   number: prop<number>(),
@@ -22,7 +24,11 @@ export class Cell extends Model({
 
   @modelAction
   onUpdateNumber(key: string, selectedNumber: number) {
-    if (['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(key)) {
+    if (!enabledKeys.includes(key)) {
+      return
+    }
+
+    if (numbersKeys.includes(key)) {
       const parsedKey = parseInt(key as string, 10)
 
       if (this.notes.length < 4) {

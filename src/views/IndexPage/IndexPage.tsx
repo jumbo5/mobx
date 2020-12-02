@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
 import { observer } from 'mobx-react-lite'
+import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 
-import { Board, Numbers, Settings, Timer } from './components'
+import { Numbers, Settings, Timer } from './components'
 import { settingsState, sudokuState } from './control'
+
+const Board = dynamic(import('./components/Board/Board'), { ssr: false })
 
 export const IndexPage: React.FC = observer(() => {
   const [isInvalidated, setIsInvalidated] = useState(false)

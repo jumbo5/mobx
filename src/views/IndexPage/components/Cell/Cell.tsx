@@ -26,7 +26,6 @@ export const Cell: React.FC<CellProps> = observer(({ cell }) => {
       cellSide={settingsState.cellSide}
       colors={settingsState.colors}
     >
-      {/* {cell.number === 0 ? ' ' : cell.number} */}
       <NotesWrapper
         notesLength={cell.notes?.length || 0}
         cellSide={settingsState.cellSide}

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 
+import { OverlayGrid } from './OverlayGrid'
 import { settingsState, sudokuState } from '../../control'
 import { Cell } from '../'
-
-const OverlayGrid = dynamic(import('./OverlayGrid'), { ssr: false })
 
 export const Board = observer(() => {
   const { board } = sudokuState
@@ -43,3 +41,5 @@ const CellWrapper = styled.div<{ cellSide: number }>`
   width: ${({ cellSide }) => `${cellSide}px`};
   height: ${({ cellSide }) => `${cellSide}px`};
 `
+
+export default Board
